@@ -1,13 +1,23 @@
-import Image from 'next/image'
-import Button from '@/components/button'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import HeroSection from '@/components/sections/HeroSection'
+import BenefitsSection from '@/components/sections/BenefitsSection'
+import MonstersSection from '@/components/sections/MonstersSection'
+import FeaturesSection from '@/components/sections/FeaturesSection'
+import NewsletterSection from '@/components/sections/NewsletterSection'
 
 export default function Home (): React.ReactNode {
   return (
-    <div className='font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20'>
-      <main className='flex flex-col gap-[32px] row-start-2 items-center sm:items-start'>
-        <h1>hello world</h1>
-        <Button size='lg'> click me</Button>
+    <div className='min-h-screen flex flex-col w-full'>
+      <Header />
+      <main className='flex-grow flex flex-col w-full'>
+        <HeroSection />
+        <BenefitsSection />
+        <MonstersSection />
+        <FeaturesSection />
+        <NewsletterSection />
       </main>
+      <Footer />
     </div>
   )
 }
