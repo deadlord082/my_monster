@@ -17,13 +17,13 @@ function SignUpForm (): React.ReactNode {
     e.preventDefault()
 
     // Handle sign-up logic here, e.g., call your sign-up API
-    console.log('Signing up with:', credentials)
+    console.log('/', credentials)
 
     const { data, error } = await authClient.signUp.email({
       email: credentials.email, // user email address
       password: credentials.password, // user password -> min 8 characters by default
       name: '', // user display name
-      callbackURL: '/sign-in' // A URL to redirect to after the user verifies their email (optional)
+      callbackURL: '/sign-up' // A URL to redirect to after the user verifies their email (optional)
     }, {
       onRequest: (ctx) => {
         // show loading
