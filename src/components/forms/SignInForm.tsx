@@ -2,8 +2,8 @@
 
 import { useState, ReactNode, FormEvent } from 'react'
 import { toast } from 'react-toastify'
-import InputField from '@components/InputField'
-import Button from '@components/Button'
+import InputField from '@components/ui/InputField'
+import Button from '@components/ui/Button'
 import { authClient } from '@/lib/auth-client'
 
 interface Credentials {

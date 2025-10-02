@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '@components/ui/Header'
+import Footer from '@components/ui/Footer'
 import HeroSection from '@/components/sections/HeroSection'
 import BenefitsSection from '@/components/sections/BenefitsSection'
 import MonstersSection from '@/components/sections/MonstersSection'

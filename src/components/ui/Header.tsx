@@ -9,7 +9,7 @@ export default function Header (): ReactNode {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
         <div className='flex items-center justify-between h-20'>
           <div className='flex items-center'>
-            <Link href='/' className='text-3xl font-bold text-tolopea-600'>
+            <Link href='/public' className='text-3xl font-bold text-tolopea-600'>
               MyMonster
             </Link>
           </div>

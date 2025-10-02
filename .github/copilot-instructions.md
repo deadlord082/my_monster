@@ -6,58 +6,105 @@ Ce projet suit les principes de Clean Architecture et Clean Code :
 
 ### Structure du Projet
 - `src/core` : Logique métier pure (entities, use cases)
-- `src/infrastructure` : Implémentations techniques (API, repositories)
-- `src/presentation` : Components UI et logique de présentation
-- `src/components` : Components réutilisables
+  - `models` : Interfaces et types
+  - `repositories` : Interfaces des repositories
+  - `services` : Services métier
+- `src/infrastructure` : Implémentations techniques
+  - `api` : Routes API Next.js
+  - `db` : Configuration et connecteurs de base de données
+  - `repositories` : Implémentations des repositories
+- `src/presentation` : Logique de présentation
+  - `components` : Composants spécifiques aux pages
+  - `hooks` : Custom hooks réutilisables
+  - `layouts` : Layouts de pages
+- `src/components` : Composants UI réutilisables
+  - `ui` : Composants de base (Card, Button, etc.)
+  - `forms` : Composants de formulaires
+  - `sections` : Sections de page réutilisables
 
 ### Principes à Suivre
 1. **SOLID**
-   - Single Responsibility
-   - Open/Closed
-   - Liskov Substitution
-   - Interface Segregation
-   - Dependency Inversion
+   - Single Responsibility : Un composant/fonction = une responsabilité
+   - Open/Closed : Extensible sans modification
+   - Liskov Substitution : Sous-types substituables
+   - Interface Segregation : Interfaces spécifiques
+   - Dependency Inversion : Dépendre des abstractions
 
 2. **Clean Code**
    - DRY (Don't Repeat Yourself)
    - KISS (Keep It Simple, Stupid)
    - Nommage explicite des variables/fonctions
    - Fonctions courtes et monofonctionnelles
+   - Commentaires uniquement quand nécessaire
 
 3. **Composants**
    - Privilégier les composants fonctionnels
-   - Utiliser des custom hooks pour la logique réutilisable
+   - Utiliser 'use client' uniquement quand nécessaire
    - Props typées avec TypeScript
    - Composition over inheritance
+   - Style intégré avec Tailwind
 
 4. **État et Gestion des Données**
-   - Utiliser les hooks React appropriés
-   - Séparation claire entre logique métier et présentation
+   - Hooks React appropriés (useState, useEffect)
+   - État global avec Context si nécessaire
+   - Séparation logique métier/présentation
+   - Gestion des erreurs avec try/catch
+   - Feedback utilisateur avec Toasts
 
 ## Style Guide
-- Utiliser TailwindCSS pour le styling
-- Suivre une palette de couleurs cohérente
-- Composants responsive et accessibles
-- Mobile-first approach
+- **TailwindCSS**
+  - Utiliser les classes utilitaires
+  - Couleurs définies dans globals.css :
+    - tolopea : violet (marque)
+    - blood : rouge (CTA)
+    - aqua-forest : vert (succès)
+  - Préfixer les classes personnalisées
+  - Mobile-first approach
 
-## Features en Cours
-- Page d'accueil avec sections :
-  - Hero section avec CTA d'inscription
-  - Présentation des bénéfices
+- **Composants UI**
+  - Card : conteneur avec ombre et bordure
+  - Button : variants primary/secondary
+  - InputField : style cohérent des formulaires
+  - Animations douces (transition-all)
+
+## Features
+### Implémentées
+- Page d'accueil
+  - Hero section avec CTA
+  - Bénéfices avec icônes
   - Galerie de monstres
   - Actions possibles
-  - Newsletter avec promotion
-  - Header de navigation
+  - Newsletter (10% promo)
+  - Header navigation
   - Footer légal
 
+- Authentification
+  - Page de connexion/inscription
+  - Formulaires stylisés
+  - Feedback avec Toasts
+  - Animations de monstres
+
+### En cours
+- Dashboard utilisateur
+- Création de monstre
+- Interactions avec les monstres
+
+## Base de données
+- MongoDB Atlas comme BDD principale
+- Connexion optimisée avec cache
+- Repositories typés
+- Modèles définis dans core/models
+
 ## Workflows
-1. Toujours commencer par les interfaces/types
-2. Implémenter la logique métier pure
-3. Créer les composants UI
-4. Connecter la logique aux composants
-5. Tester et valider
+1. Interfaces/Types (core/models)
+2. Logique métier pure (core)
+3. Infrastructure technique
+4. Composants UI (components)
+5. Intégration et tests
 
 ## Notes de Maintenance
-- Mettre à jour ce fichier lors de l'ajout de nouvelles fonctionnalités
-- Documenter les changements majeurs d'architecture
-- Maintenir la cohérence du style et de l'architecture
+- Documenter les changements d'architecture
+- Maintenir la cohérence du style
+- Tests pour les fonctionnalités critiques
+- Optimiser les performances
+- Gestion des erreurs cohérente
