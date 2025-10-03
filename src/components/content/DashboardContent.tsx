@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import Button from '@components/ui/Button'
 import { authClient } from '@lib/auth-client'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 interface DashboardContentProps {
   user: {
@@ -12,6 +13,8 @@ interface DashboardContentProps {
 }
 
 export default function DashboardContent ({ user }: DashboardContentProps): ReactNode {
+  const router = useRouter()
+
   const handleSignOut = async (): Promise<void> => {
     toast.loading('Déconnexion...', { toastId: 'signout' })
     await authClient.signOut()
@@ -21,6 +24,7 @@ export default function DashboardContent ({ user }: DashboardContentProps): Reac
       isLoading: false,
       autoClose: 2000
     })
+    router.push('/sign-in')
   }
 
   return (
