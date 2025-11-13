@@ -3,6 +3,7 @@ import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
 import Wallet from '@/db/models/wallet.model'
 import { pricingTable } from '@/config/pricing'
+import { connectMongooseToDatabase } from '@/db'
 
 export const runtime = 'nodejs'
 
@@ -12,8 +13,17 @@ export async function POST (req: Request): Promise<Response> {
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(payload, sig as string, process.env.STRIPE_WEBHOOK_SECRET as string)
-  } catch (err: any) {
-    return new Response(`Webhook Error: ${err.message as string}`, { status: 400 })
+  } catch (err) {
+    const error = err as Error
+    return new Response(`Webhook Error: ${error.message}`, { status: 400 })
+  }
+
+  // Assurer la connexion DB avant toute opération Mongoose
+  try {
+    await connectMongooseToDatabase()
+  } catch (err) {
+    console.error('Database connection error in webhook:', err)
+    return new Response('Database connection failed', { status: 500 })
   }
 
   switch (event.type) {
@@ -37,10 +47,8 @@ export async function POST (req: Request): Promise<Response> {
     case 'payment_intent.succeeded': {
       console.log('Payment intent succeeded')
       console.log(event.data.object)
-      // TODO: idem pour flow Payment Element
       break
     }
-    // gérez d'autres événements utiles (payment_failed, refund, dispute...)
   }
   return new Response('ok', { status: 200 })
 }

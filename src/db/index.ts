@@ -2,7 +2,6 @@ import { MongoClient, ServerApiVersion } from 'mongodb'
 import mongoose from 'mongoose'
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME as string}:${process.env.MONGODB_PASSWORD as string}@${process.env.MONGODB_HOST as string}/${process.env.MONGODB_DATABASE_NAME as string}${process.env.MONGODB_PARAMS as string}&appName=${process.env.MONGODB_APP_NAME as string}`
-console.log('[DEBUG] MongoDB URI Preview:', uri?.replace(/:[^:@]*@/, ':<hidden>@'))
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -14,13 +13,58 @@ const client = new MongoClient(uri, {
   }
 })
 
-async function connectMongooseToDatabase (): Promise<void> {
-  try {
-    await mongoose.connect(uri)
-    console.log('Mongoose connected to MongoDB database')
-  } catch (error) {
-    console.error('Error connecting to the database:', error)
+// Cache global pour la connexion Mongoose
+const globalWithMongoose = global as typeof globalThis & {
+  mongoose?: {
+    conn: typeof mongoose | null
+    promise: Promise<typeof mongoose> | null
   }
+}
+
+let cached = globalWithMongoose.mongoose
+
+if (cached == null) {
+  cached = globalWithMongoose.mongoose = { conn: null, promise: null }
+}
+
+async function connectMongooseToDatabase (): Promise<typeof mongoose> {
+  // Garantir que cached est initialisé
+  if (cached == null) {
+    cached = globalWithMongoose.mongoose = { conn: null, promise: null }
+  }
+
+  if (cached.conn != null) {
+    return cached.conn
+  }
+
+  if (cached.promise == null) {
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 15000, // 15s pour éviter les timeouts sur cold start
+      socketTimeoutMS: 45000
+    }
+
+    cached.promise = mongoose.connect(uri, opts).then((mongooseInstance) => {
+      console.log('Mongoose connected to MongoDB database')
+      return mongooseInstance
+    }).catch((error) => {
+      console.error('Error connecting Mongoose to database:', error)
+      // Réinitialiser le cache en cas d'erreur pour retry
+      if (cached != null) {
+        cached.promise = null
+      }
+      throw error
+    })
+  }
+
+  try {
+    cached.conn = await cached.promise
+  } catch (error) {
+    cached.promise = null
+    throw error
+  }
+
+  return cached.conn
 }
 
 async function connectToDatabase (): Promise<void> {
