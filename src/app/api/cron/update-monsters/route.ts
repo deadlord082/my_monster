@@ -9,8 +9,16 @@
  * @endpoint GET/POST /api/cron/update-monsters
  */
 import { NextRequest, NextResponse } from 'next/server'
-import { ObjectId } from 'mongodb'
+import { ObjectId, MongoServerError } from 'mongodb'
 import clientPromise from '@/db'
+
+console.log('[DEBUG] MONGO ENV:', {
+  host: process.env.MONGODB_HOST,
+  user: process.env.MONGODB_USERNAME,
+  db: process.env.MONGODB_DATABASE_NAME,
+  app: process.env.MONGODB_APP_NAME,
+  hasPassword: process.env.MONGODB_PASSWORD
+})
 
 const MONSTER_STATES = ['sad', 'angry', 'hungry', 'sleepy'] as const
 
@@ -62,6 +70,7 @@ export async function GET (request: NextRequest): Promise<NextResponse> {
     // 2. Connexion à MongoDB
     log('info', '🔌 Connexion à MongoDB...')
     const client = await clientPromise
+    console.log('[DEBUG] MongoDB connected successfully in CRON route')
     const db = client.db()
     const monstersCollection = db.collection('monsters')
     log('info', '✅ Connecté à MongoDB')
@@ -128,14 +137,18 @@ export async function GET (request: NextRequest): Promise<NextResponse> {
       duration,
       details: updates
     })
-  } catch (error) {
+  } catch (error: unknown) {
+    if (error instanceof MongoServerError) {
+      console.error('[DEBUG] MongoServerError', error.codeName, error.message)
+    } else {
+      console.error('[DEBUG] Unknown error while connecting to MongoDB', error)
+    }
     const duration = Date.now() - startTime
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    const errorStack = error instanceof Error ? error.stack : undefined
 
     log('error', '❌ Erreur lors de la mise à jour des monstres', {
-      message: errorMessage,
-      stack: errorStack,
+      rawError: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      message: (error as Error)?.message,
+      stack: (error as Error)?.stack,
       duration
     })
 
@@ -143,7 +156,7 @@ export async function GET (request: NextRequest): Promise<NextResponse> {
       {
         success: false,
         error: 'Internal server error',
-        message: errorMessage,
+        message: (error as Error)?.message ?? 'Unknown error',
         timestamp: new Date().toISOString(),
         duration
       },
