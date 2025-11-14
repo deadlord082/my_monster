@@ -86,11 +86,11 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   }
 
   return (
-    <div className='relative min-h-screen overflow-hidden bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200'>
+    <div className='relative min-h-screen overflow-hidden bg-gradient-to-br bg-black/80 border-[#00d8ff]/10'>
       {/* Bulles décoratives de fond plus colorées */}
-      <div className='pointer-events-none absolute -right-32 top-24 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/40 to-orange-400/40 blur-3xl animate-float' aria-hidden='true' />
-      <div className='pointer-events-none absolute -left-32 bottom-24 h-96 w-96 rounded-full bg-gradient-to-br from-pink-300/40 to-purple-400/40 blur-3xl animate-float-delayed' aria-hidden='true' />
-      <div className='pointer-events-none absolute top-1/2 left-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-blue-300/30 to-indigo-400/30 blur-3xl animate-pulse-slow' aria-hidden='true' />
+      <div className='pointer-events-none absolute -right-32 top-24 h-96 w-96 rounded-full bg-gradient-to-br from-cyan-400 to-indigo-600 blur-3xl animate-float' aria-hidden='true' />
+      <div className='pointer-events-none absolute -left-32 bottom-24 h-96 w-96 rounded-full bg-gradient-to-br from-cyan-400 to-indigo-600 blur-3xl animate-float-delayed' aria-hidden='true' />
+      <div className='pointer-events-none absolute top-1/2 left-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-cyan-400 to-indigo-600 blur-3xl animate-pulse-slow' aria-hidden='true' />
 
       {/* Étoiles décoratives */}
       <div className='pointer-events-none absolute top-20 right-40 text-6xl animate-twinkle'>⭐</div>
@@ -99,7 +99,7 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
 
       <main className='relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-8 sm:px-6 lg:px-8'>
         {/* Section héro avec bienvenue - EN HAUT */}
-        <section className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white/95 via-purple-50/90 to-pink-50/90 px-8 py-10 shadow-2xl ring-4 ring-white/80 backdrop-blur-lg mb-12'>
+        <section className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br bg-black/80 px-8 py-10 shadow-2xl ring-4 ring-[#00d8ff]/80 backdrop-blur-lg mb-12'>
           {/* Bulles décoratives internes */}
           <div className='pointer-events-none absolute -right-20 -top-10 h-48 w-48 rounded-full bg-gradient-to-br from-yellow-200/50 to-orange-300/50 blur-2xl' aria-hidden='true' />
           <div className='pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full bg-gradient-to-tr from-pink-200/50 to-purple-300/50 blur-2xl' aria-hidden='true' />

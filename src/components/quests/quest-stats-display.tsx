@@ -22,25 +22,25 @@ export default function QuestStatsDisplay ({ stats }: QuestStatsDisplayProps): R
       icon: '🎯',
       label: 'Quêtes complétées',
       value: stats.totalQuestsCompleted,
-      color: 'text-moccaccino-600'
+      color: 'text-fuchsia-blue-700'
     },
     {
       icon: '💰',
       label: 'Koins gagnés',
       value: stats.totalKoinsEarned,
-      color: 'text-lochinvar-600'
+      color: 'text-fuchsia-blue-700'
     },
     {
       icon: '🔥',
       label: 'Série actuelle',
       value: `${stats.currentStreak} jour${stats.currentStreak > 1 ? 's' : ''}`,
-      color: 'text-fuchsia-blue-600'
+      color: 'text-fuchsia-blue-700'
     },
     {
       icon: '⭐',
       label: 'Meilleure série',
       value: `${stats.longestStreak} jour${stats.longestStreak > 1 ? 's' : ''}`,
-      color: 'text-fuchsia-blue-600'
+      color: 'text-fuchsia-blue-700'
     }
   ]
 
@@ -49,15 +49,23 @@ export default function QuestStatsDisplay ({ stats }: QuestStatsDisplayProps): R
       {statItems.map((item, index) => (
         <div
           key={index}
-          className='bg-white rounded-lg p-4 border-2 border-gray-200 hover:border-moccaccino-300 transition-all duration-300 hover:shadow-md'
+          className='
+            bg-fuchsia-blue-50
+            border-2 border-fuchsia-blue-200
+            rounded-lg p-4
+            transition-all duration-300
+            hover:border-fuchsia-blue-300 hover:shadow-md
+          '
         >
           <div className='text-3xl mb-2 text-center'>
             {item.icon}
           </div>
+
           <div className={`text-2xl font-bold text-center ${item.color}`}>
             {item.value}
           </div>
-          <div className='text-xs text-gray-600 text-center mt-1'>
+
+          <div className='text-xs text-fuchsia-blue-700 opacity-80 text-center mt-1'>
             {item.label}
           </div>
         </div>

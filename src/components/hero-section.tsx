@@ -16,7 +16,7 @@ export default function HeroSection (): React.ReactNode {
             et vivez une aventure <span className='text-[#4ee1ff] text-shadow-glow'>magique</span>
           </h1>
           <p className='text-xl text-[#e6f7ff]/70 mb-8 max-w-3xl mx-auto'>
-            Découvrez l'univers enchanteur de Tamagotcho où des créatures adorables n'attendent que vos soins et votre amour.
+            Découvrez l'univers enchanteur de My Monster où des créatures monstrueuses n'attendent que vos soins et votre amour.
             Nourrissez, jouez et regardez grandir votre compagnon virtuel dans cette expérience unique !
           </p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>

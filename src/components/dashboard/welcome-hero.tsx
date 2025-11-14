@@ -42,7 +42,7 @@ export function WelcomeHero ({
 
         {/* Titre principal avec gradient */}
         <h1 className='text-4xl font-black text-transparent bg-clip-text leading-tight sm:text-5xl bg-gradient-to-r from-cyan-300 via-cyan-200 to-white'>
-          Bienvenue dans ton Univers Tamagotcho ! 🎮
+          Bienvenue dans ton Univers My Monster ! 🎮
         </h1>
 
         {/* Description fun */}
@@ -64,7 +64,7 @@ export function WelcomeHero ({
 
           <span className='relative flex items-center justify-center gap-3'>
             <span className='text-3xl group-hover:rotate-12 transition-transform duration-300'>🌟</span>
-            <span>Créer une Créature</span>
+            <span className='text-white'>Créer une Créature</span>
             <span className='text-3xl group-hover:-rotate-12 transition-transform duration-300'>🎨</span>
           </span>
         </button>

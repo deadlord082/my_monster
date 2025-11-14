@@ -51,17 +51,17 @@ export default function Footer (): React.ReactNode {
             <div className='flex items-center space-x-2 mb-4'>
               <Image
                 src='/logo_comp.webp'
-                alt='Tamagotcho Logo'
+                alt='My Monster Logo'
                 width={32}
                 height={32}
                 className='w-8 h-8'
               />
               <span className='text-2xl font-bold text-[#00d8ff] text-shadow-glow'>
-                Tamagotcho
+                My Monster
               </span>
             </div>
             <p className='text-[#e6f7ff]/70 mb-6 max-w-md'>
-              L'expérience Tamagotchi nouvelle génération. Adoptez, soignez et regardez grandir votre créature virtuelle adorée.
+              L'expérience My Monster nouvelle génération. Adoptez, soignez et regardez grandir votre créature virtuelle adorée.
             </p>
           </div>
 
@@ -72,7 +72,7 @@ export default function Footer (): React.ReactNode {
         </div>
 
         <div className='border-t border-[#00d8ff]/10 mt-12 pt-8 text-center text-[#e6f7ff]/50'>
-          <p>&copy; 2025 Tamagotcho. Tous droits réservés. Créé avec <span className='text-[#00d8ff]'>❤️</span> pour My Digital School.</p>
+          <p>&copy; 2025 My Monster. Tous droits réservés. Créé avec <span className='text-[#00d8ff]'>❤️</span> pour My Digital School.</p>
         </div>
       </div>
     </footer>

@@ -57,12 +57,12 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
           <div className='flex items-center gap-3'>
             <div className='relative'>
               <div className='absolute inset-0 bg-white rounded-3xl blur-lg opacity-50' />
-              <div className='relative bg-white/90 backdrop-blur-sm rounded-3xl px-8 py-4 shadow-xl ring-4 ring-fuchsia-blue-500/50'>
+              <div className='relative bg-fuchsia-blue-50 backdrop-blur-sm rounded-3xl px-8 py-4 shadow-xl ring-4 ring-fuchsia-blue-200'>
                 <div className='text-center'>
-                  <div className='text-5xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text'>
+                  <div className='text-5xl font-black text-transparent bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text'>
                     {monsters.length}
                   </div>
-                  <div className='text-sm font-bold text-purple-600 uppercase tracking-wider'>
+                  <div className='text-sm font-bold text-blue-600 uppercase tracking-wider'>
                     Créatures
                   </div>
                 </div>

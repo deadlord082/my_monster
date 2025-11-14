@@ -82,7 +82,7 @@ export default function BenefitsSection (): React.ReactNode {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
         <div className='text-center mb-16'>
           <h2 className='text-3xl md:text-4xl font-bold text-[#00d8ff] mb-4 text-shadow-glow'>
-            Pourquoi choisir Tamagotcho ?
+            Pourquoi choisir My Monster ?
           </h2>
           <p className='text-xl text-[#e6f7ff]/70 max-w-2xl mx-auto'>
             Une expérience de jeu unique qui combine nostalgie et innovation moderne

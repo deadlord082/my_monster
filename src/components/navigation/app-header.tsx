@@ -60,8 +60,9 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
   }
 
   const navItems = [
-    { href: '/app', label: 'Dashboard', icon: '🏠', color: 'from-purple-400 to-pink-500' },
-    { href: '/app/public-monsters', label: 'Monstres Publics', icon: '', color: 'from-blue-400 to-purple-500' }
+    { href: '/app', label: 'Dashboard', icon: '', color: 'from-blue-400 to-purple-500' },
+    { href: '/app/public-monsters', label: 'Monstres Publics', icon: '', color: 'from-blue-400 to-purple-500' },
+    { href: '/app/wallet', label: walletBalance.toLocaleString() + " koins", icon: '', color: 'from-blue-400 to-purple-500' }
   ]
 
   return (
@@ -74,7 +75,7 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
               <div className='relative'>
                 <div className='absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity' />
                 <Image
-                  src='/logo_comp.webp'
+                  src='/logo.png'
                   alt='Tamagotcho Logo'
                   width={48}
                   height={48}
@@ -97,7 +98,7 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
                 href={item.href}
                 className={`group relative overflow-hidden flex items-center gap-3 px-6 py-3 rounded-2xl text-lg font-black transition-all duration-300 transform hover:scale-110 active:scale-105 ${
                   isActive(item.href)
-                    ? 'bg-gradient-to-r from-[#00d8ff] to-[#2d6fe0] text-black shadow-[0_0_20px_rgba(0,216,255,0.3)] ring-4 ring-[#00d8ff]/30'
+                    ? 'bg-gray-900 text-[#e6f7ff] hover:bg-black/60 hover:text-[#00d8ff] hover:shadow-[0_0_20px_rgba(0,216,255,0.2)] ring-2 ring-[#00d8ff]/20'
                     : 'bg-black/40 text-[#e6f7ff] hover:bg-black/60 hover:text-[#00d8ff] hover:shadow-[0_0_20px_rgba(0,216,255,0.2)] ring-2 ring-[#00d8ff]/20'
                 }`}
               >
@@ -112,22 +113,6 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
                 <span className='relative z-10'>{item.label}</span>
               </Link>
             ))}
-
-            {/* Mini Wallet Display */}
-            <Link
-              href='/app/wallet'
-              className='group relative overflow-hidden flex items-center gap-2 px-6 py-3 rounded-2xl text-lg font-black transition-all duration-300 transform hover:scale-110 active:scale-105 bg-gradient-to-r from-[#00d8ff] to-[#4ee1ff] text-black shadow-[0_0_20px_rgba(0,216,255,0.3)] ring-4 ring-[#00d8ff]/30 hover:shadow-[0_0_30px_rgba(0,216,255,0.5)]'
-            >
-
-              {/* Effet de brillance au hover */}
-              <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
-
-              <span className='text-3xl relative z-10 group-hover:scale-125 transition-transform duration-300'>
-                🪙
-              </span>
-              <span className='relative z-10 text-2xl font-black'>{walletBalance.toLocaleString()}</span>
-              <span className='relative z-10 text-sm uppercase tracking-wider opacity-90'>Koins</span>
-            </Link>
           </div>
 
           {/* Actions utilisateur - Plus fun */}
@@ -137,19 +122,17 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
               disabled={isLoggingOut}
               className='group relative overflow-hidden flex items-center gap-3 px-6 py-3 rounded-2xl text-lg font-black bg-gradient-to-r from-[#2d6fe0] to-[#00d8ff] text-black hover:from-[#4e8fff] hover:to-[#4ee1ff] transition-all duration-300 transform hover:scale-110 active:scale-105 shadow-[0_0_20px_rgba(0,216,255,0.3)] ring-4 ring-[#00d8ff]/30 hover:shadow-[0_0_30px_rgba(0,216,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none'
             >
-
-              <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
+              <div className='absolute inset-0 -skew-x-12 group-hover:animate-shine' />
               {isLoggingOut
                 ? (
                   <>
                     <span className='text-2xl relative z-10 animate-spin'>⏳</span>
-                    <span className='relative z-10'>Déconnexion...</span>
+                    <span className='text-white relative z-10'>Déconnexion...</span>
                   </>
                   )
                 : (
                   <>
-                    <span className='text-2xl relative z-10 group-hover:scale-125 transition-transform duration-300'>🚪</span>
-                    <span className='relative z-10'>Quitter</span>
+                    <span className='text-white relative z-10'>Se déconnecter</span>
                   </>
                   )}
             </button>

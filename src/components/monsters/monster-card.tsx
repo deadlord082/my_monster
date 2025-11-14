@@ -82,19 +82,36 @@ export const MonsterCard = memo(function MonsterCard ({
 
   return (
     <Link href={`/app/creatures/${id}`}>
-      <article className='group flex flex-col overflow-hidden rounded-lg bg-white p-6 shadow-sm border-2 border-gray-200 transition-all duration-200 hover:shadow-md hover:border-moccaccino-300 cursor-pointer'>
-        <div className='flex flex-col gap-4'>
+      <article className="
+          group flex flex-col overflow-hidden rounded-lg 
+          bg-black p-6 shadow-sm border-2 
+          border-fuchsia-blue-200 
+          transition-all duration-200 
+          hover:shadow-md hover:border-fuchsia-blue-300 
+          focus:outline-none focus:ring-2 focus:ring-fuchsia-blue-200
+          cursor-pointer
+        "
+      >
+        <div className="flex flex-col gap-4">
+          
           {/* Zone de rendu du monstre */}
           <div
-            className='relative flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 p-6 border border-gray-200 min-h-[220px] bg-cover bg-center bg-no-repeat'
+            className="
+              relative flex items-center justify-center overflow-hidden 
+              rounded-lg bg-fuchsia-blue-50 p-6 
+              border border-fuchsia-blue-200 
+              min-h-[220px] bg-cover bg-center bg-no-repeat
+              group-hover:bg-fuchsia-blue-100
+            "
             style={{
-              backgroundImage: equipedBackgroundUrl !== null && equipedBackgroundUrl !== undefined && equipedBackgroundUrl !== ''
-                ? `url('${equipedBackgroundUrl}')`
-                : undefined
+              backgroundImage:
+                equipedBackgroundUrl
+                  ? `url('${equipedBackgroundUrl}')`
+                  : undefined
             }}
           >
             {traits !== null && (
-              <div className='relative'>
+              <div className="relative">
                 <PixelMonster
                   traits={traits}
                   state={isMonsterState(state) ? state : 'happy'}
@@ -105,20 +122,20 @@ export const MonsterCard = memo(function MonsterCard ({
             )}
 
             {/* Badge d'état */}
-            <div className='absolute top-2 left-2'>
+            <div className="absolute top-2 left-2">
               <MonsterStateBadge state={state} />
             </div>
           </div>
 
           {/* Informations textuelles */}
-          <div className='flex flex-1 flex-col gap-3'>
-            <div className='flex items-start justify-between gap-3'>
-              <div className='space-y-1 flex-1'>
-                <h3 className='text-xl font-bold text-gray-900'>
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1 flex-1">
+                <h3 className="text-xl font-bold text-fuchsia-blue-700">
                   {name}
                 </h3>
                 {adoptionDate !== null && (
-                  <p className='text-sm text-gray-600 flex items-center gap-1.5'>
+                  <p className="text-sm text-fuchsia-blue-700 opacity-80 flex items-center gap-1.5">
                     <span>🗓️</span>
                     Arrivé le {adoptionDate}
                   </p>
@@ -126,27 +143,41 @@ export const MonsterCard = memo(function MonsterCard ({
               </div>
 
               {/* Badge de niveau */}
-              <div className='flex items-center gap-1.5 bg-moccaccino-500 text-white font-semibold px-3 py-1.5 rounded-lg text-sm'>
+              <div className="
+                  flex items-center gap-1.5 
+                  bg-fuchsia-blue-700 text-white 
+                  font-semibold px-3 py-1.5 rounded-lg text-sm
+                "
+              >
                 <span>⭐</span>
                 <span>Niv. {levelLabel}</span>
               </div>
             </div>
 
             {/* Barre de progression */}
-            <div className='space-y-1.5'>
-              <div className='flex items-center gap-2'>
-                <div className='flex-1 h-2 bg-gray-200 rounded-full overflow-hidden'>
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-2 bg-fuchsia-blue-50 rounded-full overflow-hidden">
                   <div
-                    className='h-full bg-moccaccino-500 rounded-full transition-all duration-300'
+                    className="
+                      h-full bg-fuchsia-blue-700 rounded-full 
+                      transition-all duration-300
+                    "
                     style={{ width: `${Math.min(levelLabel * 10, 100)}%` }}
                   />
                 </div>
-                <span className='text-xs font-medium text-gray-600'>{Math.min(levelLabel * 10, 100)}%</span>
+                <span className="text-xs font-medium text-fuchsia-blue-700 opacity-80">
+                  {Math.min(levelLabel * 10, 100)}%
+                </span>
               </div>
             </div>
 
             {/* Bouton d'action */}
-            <div className='text-sm text-moccaccino-600 font-medium group-hover:text-moccaccino-700'>
+            <div className="
+                text-sm text-fuchsia-blue-700 font-medium 
+                group-hover:text-fuchsia-blue-900
+              "
+            >
               Voir les détails →
             </div>
           </div>
