@@ -32,6 +32,11 @@ const monsterSchema = new Schema({
     enum: ['happy', 'sad', 'angry', 'hungry', 'sleepy'],
     default: 'happy'
   },
+  isPublic: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   ownerId: {
     type: Schema.Types.ObjectId,
     ref: 'user',

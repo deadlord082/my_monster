@@ -1,14 +1,19 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
+// import type { DBBackground } from '@/types/background'
 import type { MonsterAction } from '@/hooks/monsters'
 import { parseMonsterTraits } from '@/lib/utils'
 import { CreatureMonsterDisplay } from './creature-monster-display'
 import { CreatureStatsPanel } from './creature-stats-panel'
+// import { MonsterAccessories } from './monster-accessories'
+// import { MonsterBackgrounds } from './monster-backgrounds'
 import { LevelUpAnimation } from './level-up-animation'
 import { ShopModal } from './shop-modal'
 import { useRouter } from 'next/navigation'
+// import { getEquippedBackground } from '@/actions/backgrounds.actions'
+import TogglePublicButton from './toggle-public-button'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -39,11 +44,12 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   const [xpGained, setXpGained] = useState(0)
   const [showLevelUp, setShowLevelUp] = useState(false)
   const [showShop, setShowShop] = useState(false)
+  // const [equippedBackground, setEquippedBackground] = useState<DBBackground | null>(null)
   const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
-  // Parse des traits depuis le JSON stocké en base
-  const traits: MonsterTraits = parseMonsterTraits(monster.traits) ?? {
+  // Parse des traits depuis le JSON stocké en base - Optimisé avec useMemo
+  const traits: MonsterTraits = useMemo(() => parseMonsterTraits(currentMonster.traits) ?? {
     bodyColor: '#FFB5E8',
     accentColor: '#FF9CEE',
     eyeColor: '#2C2C2C',
@@ -54,7 +60,35 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
     eyeStyle: 'big',
     antennaStyle: 'single',
     accessory: 'none'
-  }
+  }, [currentMonster.traits])
+
+  // Charger le background équipé au montage et quand le monstre change
+  // useEffect(() => {
+  //   const loadEquippedBackground = async (): Promise<void> => {
+  //     try {
+  //       const bg = await getEquippedBackground(monster._id)
+  //       setEquippedBackground(bg)
+  //     } catch (error) {
+  //       console.error('Erreur lors du chargement du background équipé:', error)
+  //     }
+  //   }
+
+  //   void loadEquippedBackground()
+  // }, [monster._id, currentMonster.equipedBackground])
+
+  /**
+   * Callback appelé quand un background est équipé/déséquipé
+   * Recharge immédiatement le background pour mise à jour instantanée
+   * Optimisé avec useCallback pour éviter les re-renders des composants enfants
+   */
+  // const handleBackgroundChange = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const bg = await getEquippedBackground(monster._id)
+  //     setEquippedBackground(bg)
+  //   } catch (error) {
+  //     console.error('Erreur lors du rechargement du background:', error)
+  //   }
+  // }, [monster._id])
 
   useEffect(() => {
     const fetchMonster = async (): Promise<void> => {
@@ -96,7 +130,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
 
     const interval = setInterval(() => {
       void fetchMonster()
-    }, 1000)
+    }, 2000)
 
     return () => clearInterval(interval)
   }, [monster, currentMonster])
@@ -112,9 +146,10 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
 
   /**
    * Gère le déclenchement d'une action sur le monstre
+   * Optimisé avec useCallback pour éviter les re-renders des boutons d'action
    * @param {MonsterAction} action - Action déclenchée
    */
-  const handleAction = (action: MonsterAction): void => {
+  const handleAction = useCallback((action: MonsterAction): void => {
     // Nettoyer le timer précédent si existant
     if (actionTimerRef.current !== null) {
       clearTimeout(actionTimerRef.current)
@@ -129,19 +164,10 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
     }, 2500)
 
     actionTimerRef.current = timer
-  }
+  }, [])
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200 py-6 relative overflow-hidden'>
-      {/* Bulles décoratives animées */}
-      <div className='pointer-events-none absolute inset-0'>
-        <div className='absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-400/30 blur-3xl animate-float' />
-        <div className='absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-400/30 blur-3xl animate-float-delayed' />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-blue-300/20 to-indigo-400/20 blur-3xl animate-pulse-slow' />
-      </div>
-
-      {/* Étoiles décoratives */}
-      <div className='pointer-events-none absolute top-20 right-40 text-6xl animate-twinkle'>⭐</div>
+    <div className='min-h-screen bg-gray-50 py-6'>
       <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
       <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
 
@@ -161,20 +187,26 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
             {/* Nom du monstre inline */}
             <div className='flex items-center gap-2'>
               <span className='text-3xl'>👋</span>
-              <h1 className='text-3xl sm:text-4xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text'>
+              <h1 className='text-3xl sm:text-4xl font-bold text-gray-900'>
                 {currentMonster.name}
               </h1>
             </div>
           </div>
 
           {/* Bouton boutique */}
-          <button
-            onClick={() => { setShowShop(true) }}
-            className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-green-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
-          >
-            <span className='text-xl'>🛍️</span>
-            <span className='hidden sm:inline'>Boutique</span>
-          </button>
+          <div className='flex items-center gap-3'>
+            <TogglePublicButton
+              monsterId={currentMonster._id}
+              initialIsPublic={currentMonster.isPublic ?? false}
+            />
+            <button
+              onClick={() => { setShowShop(true) }}
+              className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-green-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
+            >
+              <span className='text-xl'>🛍️</span>
+              <span className='hidden sm:inline'>Boutique</span>
+            </button>
+          </div>
         </div>
 
         {/* Grille principale - Alignée */}
@@ -188,11 +220,13 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
               currentAction={currentAction}
               onAction={handleAction}
               monsterId={currentMonster._id}
+              // equipedAccessoriesIds={currentMonster.equipedAccessories ?? []}
+              // equipedBackgroundUrl={equippedBackground?.url ?? null}
             />
           </div>
 
-          {/* Colonne droite : Statistiques */}
-          <div>
+          {/* Colonne droite : Statistiques + Accessoires */}
+          <div className='space-y-6'>
             <CreatureStatsPanel
               level={currentMonster.level}
               xp={currentMonster.xp ?? 0}
@@ -203,6 +237,19 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
               showXpGain={showXpGain}
               xpGained={xpGained}
             />
+
+            {/* Accessoires du monstre */}
+            {/* <MonsterAccessories
+              monsterId={currentMonster._id}
+              equipedAccessories={currentMonster.equipedAccessories ?? []}
+            /> */}
+
+            {/* Backgrounds du monstre */}
+            {/* <MonsterBackgrounds
+              monsterId={currentMonster._id}
+              equipedBackgroundId={currentMonster.equipedBackground ?? null}
+              onBackgroundChange={() => { void handleBackgroundChange() }}
+            /> */}
           </div>
         </div>
       </div>

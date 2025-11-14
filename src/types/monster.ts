@@ -33,6 +33,7 @@ export interface DBMonster {
   maxXp: number
   traits: string // JSON serialized MonsterTraits
   state: MonsterState
+  isPublic: boolean
   ownerId: string
   createdAt: Date
   updatedAt: Date

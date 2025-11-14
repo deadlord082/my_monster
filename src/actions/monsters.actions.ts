@@ -9,6 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { Types } from 'mongoose'
 import { MonsterAction } from '@/hooks/monsters'
+import { checkAndUpdateQuest } from '@/services/quests/daily-quests.service'
 
 /**
  * Crée un nouveau monstre pour l'utilisateur authentifié
@@ -35,32 +36,37 @@ import { MonsterAction } from '@/hooks/monsters'
  * })
  */
 export async function createMonster (monsterData: CreateMonsterFormValues): Promise<void> {
-  // Connexion à la base de données
-  await connectMongooseToDatabase()
+  try {
+    // Connexion à la base de données
+    await connectMongooseToDatabase()
 
-  // Vérification de l'authentification
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-  if (session === null || session === undefined) {
-    throw new Error('User not authenticated')
+    // Vérification de l'authentification
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    if (session === null || session === undefined) {
+      throw new Error('User not authenticated')
+    }
+
+    // Création et sauvegarde du monstre
+    const monster = new Monster({
+      ownerId: session.user.id,
+      name: monsterData.name,
+      traits: monsterData.traits,
+      state: monsterData.state,
+      level: monsterData.level,
+      xp: monsterData.xp,
+      isPublic: monsterData.isPublic,
+      maxXp: monsterData.maxXp
+    })
+
+    await monster.save()
+
+    // Revalidation du cache pour rafraîchir le dashboard
+    revalidatePath('/app')
+  } catch (error) {
+    console.error('Error creating monster:', error)
   }
-
-  // Création et sauvegarde du monstre
-  const monster = new Monster({
-    ownerId: session.user.id,
-    name: monsterData.name,
-    traits: monsterData.traits,
-    state: monsterData.state,
-    level: monsterData.level,
-    xp: monsterData.xp,
-    maxXp: monsterData.maxXp
-  })
-
-  await monster.save()
-
-  // Revalidation du cache pour rafraîchir le dashboard
-  revalidatePath('/dashboard')
 }
 
 /**
@@ -242,12 +248,14 @@ export async function doActionOnMonster (id: string, action: MonsterAction): Pro
         monster.xp = currentXp + xpGain
 
         // Vérification du passage de niveau
+        let leveledUp = false
         while (Number(monster.xp) >= Number(monster.maxXp)) {
           // Passage au niveau supérieur
           monster.level = Number(monster.level) + 1
           monster.xp = Number(monster.xp) - Number(monster.maxXp)
           // Nouveau palier d'XP : level * 100
           monster.maxXp = Number(monster.level) * 100
+          leveledUp = true
         }
 
         monster.markModified('state')
@@ -255,9 +263,92 @@ export async function doActionOnMonster (id: string, action: MonsterAction): Pro
         monster.markModified('maxXp')
         monster.markModified('level')
         await monster.save()
+
+        // Mise à jour des quêtes
+        // Si action "feed", mettre à jour la quête de nourriture
+        if (action === 'feed') {
+          await checkAndUpdateQuest(user.id, 'feed_monster', 1)
+        }
+
+        // Si le monstre a gagné un niveau, mettre à jour la quête d'évolution
+        if (leveledUp) {
+          await checkAndUpdateQuest(user.id, 'evolve_monster', 1)
+          await checkAndUpdateQuest(user.id, 'reach_monster_level', 1)
+        }
+
+        // Mettre à jour la quête d'interaction (toutes les actions comptent)
+        await checkAndUpdateQuest(user.id, 'interact_with_monsters', 1)
+
+        revalidatePath(`/app/creatures/${id}`)
       }
     }
   } catch (error) {
     console.error('Error updating monster state:', error)
+  }
+}
+
+export async function togglePublicMonster (id: string): Promise<void> {
+  try {
+    // Connexion à la base de données
+    await connectMongooseToDatabase()
+
+    // Vérification de l'authentification
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    if (session === null || session === undefined) {
+      throw new Error('User not authenticated')
+    }
+
+    const { user } = session
+
+    // Extraction de l'ID depuis le tableau de route dynamique
+    const _id = id
+
+    // Validation du format ObjectId MongoDB
+    if (!Types.ObjectId.isValid(_id)) {
+      throw new Error('Invalid monster ID format')
+    }
+
+    // Récupération du monstre avec vérification de propriété
+    const monster = await Monster.findOne({ ownerId: user.id, _id }).exec()
+
+    const wasPrivate = !monster.isPublic
+    monster.isPublic = !monster.isPublic
+    monster.markModified('isPublic')
+    await monster.save()
+
+    // Si le monstre est devenu public, mettre à jour la quête
+    if (wasPrivate && monster.isPublic) {
+      await checkAndUpdateQuest(user.id, 'make_monster_public', 1)
+    }
+
+    revalidatePath(`/app/creatures/${id}`)
+  } catch (error) {
+    console.error('Error updating monster state:', error)
+  }
+}
+
+export async function getPublicMonsters (): Promise<DBMonster[]> {
+  try {
+    // Connexion à la base de données
+    await connectMongooseToDatabase()
+
+    // Vérification de l'authentification
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    if (session === null || session === undefined) {
+      throw new Error('User not authenticated')
+    }
+
+    // Récupération des monstres de l'utilisateur
+    const monsters = await Monster.find({ isPublic: true }).exec()
+
+    // Sérialisation JSON pour éviter les problèmes de typage Next.js
+    return JSON.parse(JSON.stringify(monsters))
+  } catch (error) {
+    console.error('Error fetching monsters:', error)
+    return []
   }
 }

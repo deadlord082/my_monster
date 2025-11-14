@@ -60,7 +60,8 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
   }
 
   const navItems = [
-    { href: '/app', label: 'Dashboard', icon: '🏠', color: 'from-purple-400 to-pink-500' }
+    { href: '/app', label: 'Dashboard', icon: '🏠', color: 'from-purple-400 to-pink-500' },
+    { href: '/app/public-monsters', label: 'Monstres Publics', icon: '', color: 'from-blue-400 to-purple-500' }
   ]
 
   return (
@@ -82,7 +83,7 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
                 />
               </div>
               <span className='text-3xl font-black text-[#00d8ff] text-shadow-glow'>
-                Tamagotcho
+                My monster
               </span>
             </div>
           </Link>

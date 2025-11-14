@@ -10,6 +10,7 @@ export { parseMonsterTraits } from './monster.utils'
 export { formatAdoptionDate } from './date.utils'
 export {
   getStateLabel,
+  getStateEmoji,
   getBodyStyleLabel,
   getEyeStyleLabel,
   getAntennaStyleLabel,

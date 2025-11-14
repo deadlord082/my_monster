@@ -14,6 +14,17 @@ const STATE_LABELS: Record<string, string> = {
 }
 
 /**
+ * Mapping des états de monstre vers leurs emojis
+ */
+const STATE_EMOJIS: Record<string, string> = {
+  happy: '😊',
+  sad: '😢',
+  angry: '😠',
+  hungry: '🍔',
+  sleepy: '😴'
+}
+
+/**
  * Mapping des styles de corps vers leurs labels français
  */
 const BODY_STYLE_LABELS: Record<string, string> = {
@@ -67,6 +78,22 @@ const ACCESSORY_LABELS: Record<string, string> = {
  */
 export const getStateLabel = (state: string): string => {
   return STATE_LABELS[state] ?? state
+}
+
+/**
+ * Retourne l'emoji correspondant à l'état d'un monstre
+ *
+ * Responsabilité unique : mapper un état vers son emoji représentatif.
+ *
+ * @param {string} state - État du monstre (happy, sad, angry, hungry, sleepy)
+ * @returns {string} Emoji ou une valeur par défaut si non trouvée
+ *
+ * @example
+ * getStateEmoji('happy') // "😊"
+ * getStateEmoji('unknown') // "❓"
+ */
+export const getStateEmoji = (state: string): string => {
+  return STATE_EMOJIS[state] ?? '❓'
 }
 
 /**
