@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo, memo } from 'react'
+import { drawAccessoryOnMonster } from '@/services/accessory/accessory-generator.service'
+import type { AccessoryType } from '@/config/accessory.config'
 
 type MonsterState = 'happy' | 'sad' | 'hungry' | 'sleepy' | 'angry'
 type MonsterAction = 'feed' | 'comfort' | 'hug' | 'wake' | null
@@ -23,11 +25,17 @@ export interface MonsterTraits {
   accessory: AccessoryStyle
 }
 
+export interface EquippedAccessory {
+  type: AccessoryType
+  mainColor: string
+}
+
 interface PixelMonsterProps {
   state: MonsterState
   traits?: MonsterTraits
   level?: number
   currentAction?: MonsterAction
+  equippedAccessories?: EquippedAccessory[]
 }
 
 const defaultTraits: MonsterTraits = {
@@ -56,17 +64,21 @@ interface Particle {
   rotationSpeed: number
 }
 
-export function PixelMonster ({
+export const PixelMonster = memo(function PixelMonster ({
   state,
   traits = defaultTraits,
   level = 1,
-  currentAction = null
+  currentAction = null,
+  equippedAccessories = []
 }: PixelMonsterProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const frameRef = useRef(0)
   const actionFrameRef = useRef(0)
   const particlesRef = useRef<Particle[]>([])
   const currentActionRef = useRef<MonsterAction>(null)
+
+  // Optimisation : mémoriser les traits combinés pour éviter les allocations
+  const finalTraits = useMemo(() => ({ ...defaultTraits, ...traits }), [traits])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -92,7 +104,7 @@ export function PixelMonster ({
         }
       }
 
-      drawMonster(ctx, state, frameRef.current, traits, level, currentActionRef.current, actionFrameRef.current, particlesRef.current)
+      drawMonster(ctx, state, frameRef.current, finalTraits, level, currentActionRef.current, actionFrameRef.current, particlesRef.current, equippedAccessories)
       animationId = requestAnimationFrame(animate)
     }
 
@@ -103,7 +115,7 @@ export function PixelMonster ({
         cancelAnimationFrame(animationId)
       }
     }
-  }, [state, traits, level])
+  }, [state, finalTraits, level, equippedAccessories])
 
   useEffect(() => {
     if (currentAction !== null && currentAction !== currentActionRef.current) {
@@ -114,7 +126,7 @@ export function PixelMonster ({
   }, [currentAction])
 
   return <canvas ref={canvasRef} className='pixel-art w-full h-full mx-auto' style={{ imageRendering: 'pixelated' }} />
-}
+})
 
 function createParticles (action: MonsterAction): Particle[] {
   const particles: Particle[] = []
@@ -159,7 +171,8 @@ function drawMonster (
   level: number,
   currentAction: MonsterAction,
   actionFrame: number,
-  particles: Particle[]
+  particles: Particle[],
+  equippedAccessories: EquippedAccessory[] = []
 ): void {
   const pixelSize = 6
   const bounce = Math.sin(frame * 0.05) * 3
@@ -240,32 +253,79 @@ function drawMonster (
 
   const bodyY = 55 + bounce + extraBounce
 
+  // ============ ORDRE DE DESSIN (Z-INDEX) ============
+
+  // 1. ARRIÈRE-PLAN : Chaussures (derrière le corps)
+  const shoesAccessory = equippedAccessories.find(acc => acc.type === 'shoes')
+  if (shoesAccessory !== undefined) {
+    drawAccessoryOnMonster(
+      ctx,
+      { type: 'shoes', mainColor: shoesAccessory.mainColor },
+      80,
+      bodyY,
+      pixelSize
+    )
+  }
+
+  // 2. CORPS DU MONSTRE
   drawBody(ctx, traits.bodyStyle, bodyColor, accentColor, bodyY, pixelSize)
 
-  drawEyes(ctx, traits.eyeStyle, traits.eyeColor, state, bodyY, pixelSize, frame)
-
-  drawMouth(ctx, state, traits.eyeColor, traits.cheekColor, bodyY, pixelSize, frame)
-
+  // 3. BRAS ET JAMBES
   const armWave = Math.sin(frame * 0.1) * 5
   ctx.fillStyle = bodyColor
+  // Bras gauche
   ctx.fillRect(33, bodyY + 30 + armWave, pixelSize, pixelSize * 3)
   ctx.fillRect(27, bodyY + 33 + armWave, pixelSize, pixelSize * 2)
-
+  // Bras droit
   ctx.fillRect(123, bodyY + 30 - armWave, pixelSize, pixelSize * 3)
   ctx.fillRect(129, bodyY + 33 - armWave, pixelSize, pixelSize * 2)
-
+  // Jambes
   ctx.fillRect(57, bodyY + 54, pixelSize * 3, pixelSize * 2)
   ctx.fillRect(105, bodyY + 54, pixelSize * 3, pixelSize * 2)
 
+  // 4. VISAGE (yeux, bouche)
+  drawEyes(ctx, traits.eyeStyle, traits.eyeColor, state, bodyY, pixelSize, frame)
+  drawMouth(ctx, state, traits.eyeColor, traits.cheekColor, bodyY, pixelSize, frame)
+
+  // 5. LUNETTES (par-dessus le visage)
+  const sunglassesAccessory = equippedAccessories.find(acc => acc.type === 'sunglasses')
+  if (sunglassesAccessory !== undefined) {
+    drawAccessoryOnMonster(
+      ctx,
+      { type: 'sunglasses', mainColor: sunglassesAccessory.mainColor },
+      80,
+      bodyY,
+      pixelSize
+    )
+  }
+
+  // 6. ANTENNES
   drawAntenna(ctx, traits.antennaStyle, traits.antennaColor, traits.bobbleColor, bodyY, pixelSize, frame)
 
-  drawAccessory(ctx, traits.accessory, traits.accentColor, bodyY, pixelSize, frame)
+  // 7. ACCESSOIRE DU TRAIT (existant - uniquement si pas d'accessoire hat équipé)
+  const hasHatEquipped = equippedAccessories.some(acc => acc.type === 'hat')
+  if (!hasHatEquipped) {
+    drawAccessory(ctx, traits.accessory, traits.accentColor, bodyY, pixelSize, frame)
+  }
 
+  // 8. CHAPEAU (tout au-dessus)
+  const hatAccessory = equippedAccessories.find(acc => acc.type === 'hat')
+  if (hatAccessory !== undefined) {
+    drawAccessoryOnMonster(
+      ctx,
+      { type: 'hat', mainColor: hatAccessory.mainColor },
+      80,
+      bodyY,
+      pixelSize
+    )
+  }
+
+  // 9. EFFETS D'ÉTAT (devant tout)
   drawStateEffects(ctx, state, bodyY, pixelSize, frame)
 
   ctx.restore()
 
-  // Dessiner les particules
+  // 10. PARTICULES (encore plus devant)
   if (currentAction !== null && particles.length > 0) {
     drawParticles(ctx, particles, actionFrame)
   }

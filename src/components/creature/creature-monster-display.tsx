@@ -1,7 +1,14 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { AnimatedMonster, MonsterActions } from '@/components/monsters'
 import type { MonsterTraits, MonsterState } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
+import type { EquippedAccessory } from '@/components/monsters/pixel-monster'
 import { getStateLabel } from '@/lib/utils'
+import { getAccessoriesForMonster } from '@/actions/accessory.actions'
+import { accessoriesCatalog, type AccessoryType } from '@/config/accessory.config'
+import type { DBAccessory } from '@/types/accessory'
 
 /**
  * Props pour le composant CreatureMonsterDisplay
@@ -19,6 +26,10 @@ interface CreatureMonsterDisplayProps {
   onAction: (action: MonsterAction) => void
   /** ID du monstre */
   monsterId: string
+  /** IDs des accessoires équipés */
+  equipedAccessoriesIds: string[]
+  /** URL du background équipé */
+  equipedBackgroundUrl?: string | null
 }
 
 /**
@@ -41,8 +52,44 @@ export function CreatureMonsterDisplay ({
   level,
   currentAction,
   onAction,
-  monsterId
+  monsterId,
+  equipedAccessoriesIds,
+  equipedBackgroundUrl
 }: CreatureMonsterDisplayProps): React.ReactNode {
+  const [equippedAccessories, setEquippedAccessories] = useState<EquippedAccessory[]>([])
+
+  // Charger les accessoires équipés
+  useEffect(() => {
+    const loadAccessories = async (): Promise<void> => {
+      try {
+        const accessories = await getAccessoriesForMonster(monsterId)
+
+        // Vérifier que accessories n'est pas undefined
+        if (accessories === undefined) return
+
+        // Filtrer uniquement les équipés
+        const equipped = accessories.filter((acc: DBAccessory) =>
+          equipedAccessoriesIds.includes(acc._id)
+        )
+
+        // Convertir en format pour le rendu
+        const accessoriesData: EquippedAccessory[] = equipped.map((acc: DBAccessory) => {
+          const config = accessoriesCatalog.find(c => c.type === acc.type)
+          return {
+            type: acc.type as AccessoryType,
+            mainColor: acc.mainColor ?? config?.mainColor ?? '#CCC'
+          }
+        })
+
+        setEquippedAccessories(accessoriesData)
+      } catch (error) {
+        console.error('Erreur lors du chargement des accessoires:', error)
+      }
+    }
+
+    void loadAccessories()
+  }, [monsterId, equipedAccessoriesIds])
+
   // Couleurs selon l'état
   const stateColors: Record<string, { bg: string, text: string, emoji: string }> = {
     happy: { bg: 'from-green-400 to-emerald-500', text: 'Joyeux', emoji: '😊' },
@@ -61,14 +108,26 @@ export function CreatureMonsterDisplay ({
       <div className='pointer-events-none absolute -left-16 -top-12 h-48 w-48 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-300/30 blur-2xl animate-float-delayed' />
 
       {/* Zone d'affichage du monstre animé - PLUS GRANDE */}
-      <div className='relative aspect-square max-w-lg mx-auto mb-8'>
-        <div className='absolute inset-0 bg-gradient-to-br from-yellow-100/50 via-pink-100/50 to-purple-100/50 rounded-3xl animate-pulse-slow' />
+      <div
+        className={`
+          relative aspect-square max-w-lg mx-auto mb-8
+          rounded-md
+          bg-cover bg-center bg-no-repeat
+        `}
+        style={{
+          backgroundImage: equipedBackgroundUrl !== null && equipedBackgroundUrl !== undefined && equipedBackgroundUrl !== ''
+            ? `url('${equipedBackgroundUrl}')`
+            : ''
+        }}
+      >
+        <div className='absolute inset-0' />
         <div className='relative p-8'>
           <AnimatedMonster
             state={state}
             traits={traits}
             level={level}
             currentAction={currentAction}
+            equippedAccessories={equippedAccessories}
           />
         </div>
 

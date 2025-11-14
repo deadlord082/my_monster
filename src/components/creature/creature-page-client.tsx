@@ -2,17 +2,17 @@
 
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
-// import type { DBBackground } from '@/types/background'
+import type { DBBackground } from '@/types/background'
 import type { MonsterAction } from '@/hooks/monsters'
 import { parseMonsterTraits } from '@/lib/utils'
 import { CreatureMonsterDisplay } from './creature-monster-display'
 import { CreatureStatsPanel } from './creature-stats-panel'
-// import { MonsterAccessories } from './monster-accessories'
-// import { MonsterBackgrounds } from './monster-backgrounds'
+import { MonsterAccessories } from './creature-accessory'
+import { MonsterBackgrounds } from './creature-background'
 import { LevelUpAnimation } from './level-up-animation'
 import { ShopModal } from './shop-modal'
 import { useRouter } from 'next/navigation'
-// import { getEquippedBackground } from '@/actions/backgrounds.actions'
+import { getEquippedBackground } from '@/actions/background.actions'
 import TogglePublicButton from './toggle-public-button'
 
 /**
@@ -44,7 +44,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   const [xpGained, setXpGained] = useState(0)
   const [showLevelUp, setShowLevelUp] = useState(false)
   const [showShop, setShowShop] = useState(false)
-  // const [equippedBackground, setEquippedBackground] = useState<DBBackground | null>(null)
+  const [equippedBackground, setEquippedBackground] = useState<DBBackground | null>(null)
   const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
@@ -63,32 +63,32 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   }, [currentMonster.traits])
 
   // Charger le background équipé au montage et quand le monstre change
-  // useEffect(() => {
-  //   const loadEquippedBackground = async (): Promise<void> => {
-  //     try {
-  //       const bg = await getEquippedBackground(monster._id)
-  //       setEquippedBackground(bg)
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement du background équipé:', error)
-  //     }
-  //   }
+  useEffect(() => {
+    const loadEquippedBackground = async (): Promise<void> => {
+      try {
+        const bg = await getEquippedBackground(monster._id)
+        setEquippedBackground(bg)
+      } catch (error) {
+        console.error('Erreur lors du chargement du background équipé:', error)
+      }
+    }
 
-  //   void loadEquippedBackground()
-  // }, [monster._id, currentMonster.equipedBackground])
+    void loadEquippedBackground()
+  }, [monster._id, currentMonster.equipedBackground])
 
   /**
    * Callback appelé quand un background est équipé/déséquipé
    * Recharge immédiatement le background pour mise à jour instantanée
    * Optimisé avec useCallback pour éviter les re-renders des composants enfants
    */
-  // const handleBackgroundChange = useCallback(async (): Promise<void> => {
-  //   try {
-  //     const bg = await getEquippedBackground(monster._id)
-  //     setEquippedBackground(bg)
-  //   } catch (error) {
-  //     console.error('Erreur lors du rechargement du background:', error)
-  //   }
-  // }, [monster._id])
+  const handleBackgroundChange = useCallback(async (): Promise<void> => {
+    try {
+      const bg = await getEquippedBackground(monster._id)
+      setEquippedBackground(bg)
+    } catch (error) {
+      console.error('Erreur lors du rechargement du background:', error)
+    }
+  }, [monster._id])
 
   useEffect(() => {
     const fetchMonster = async (): Promise<void> => {
@@ -220,8 +220,8 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
               currentAction={currentAction}
               onAction={handleAction}
               monsterId={currentMonster._id}
-              // equipedAccessoriesIds={currentMonster.equipedAccessories ?? []}
-              // equipedBackgroundUrl={equippedBackground?.url ?? null}
+              equipedAccessoriesIds={currentMonster.equipedAccessories ?? []}
+              equipedBackgroundUrl={equippedBackground?.url ?? null}
             />
           </div>
 
@@ -239,17 +239,17 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
             />
 
             {/* Accessoires du monstre */}
-            {/* <MonsterAccessories
+            <MonsterAccessories
               monsterId={currentMonster._id}
               equipedAccessories={currentMonster.equipedAccessories ?? []}
-            /> */}
+            />
 
             {/* Backgrounds du monstre */}
-            {/* <MonsterBackgrounds
+            <MonsterBackgrounds
               monsterId={currentMonster._id}
               equipedBackgroundId={currentMonster.equipedBackground ?? null}
               onBackgroundChange={() => { void handleBackgroundChange() }}
-            /> */}
+            />
           </div>
         </div>
       </div>

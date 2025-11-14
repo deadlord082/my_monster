@@ -3,7 +3,9 @@ export const MONSTER_STATES = ['happy', 'sad', 'angry', 'hungry', 'sleepy'] as c
 export type MonsterState = typeof MONSTER_STATES[number]
 
 export const DEFAULT_MONSTER_LEVEL = 1
+export const DEFAULT_MONSTER_BG = ''
 export const DEFAULT_MONSTER_STATE: MonsterState = MONSTER_STATES[0]
+export const DEFAULT_MONSTER_ACCESSORIES: string[] = []
 
 // Pixel Monster Types (from GitHub v0-tamagotcho)
 export type MonsterStyle = 'round' | 'square' | 'tall' | 'wide'
@@ -32,8 +34,10 @@ export interface DBMonster {
   xp: number
   maxXp: number
   traits: string // JSON serialized MonsterTraits
-  state: MonsterState
+  equipedAccessories: string[]
+  equipedBackground: string
   isPublic: boolean
+  state: MonsterState
   ownerId: string
   createdAt: Date
   updatedAt: Date

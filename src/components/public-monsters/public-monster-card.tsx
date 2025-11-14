@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 import { AnimatedMonster } from '@/components/monsters'
 import type { DBMonster, MonsterTraits } from '@/types/monster'
-// import type { DBBackground } from '@/types/background'
-// import type { EquippedAccessory } from '@/components/monsters/pixel-monster'
+import type { DBBackground } from '@/types/background'
+import type { EquippedAccessory } from '@/components/monsters/pixel-monster'
 import { parseMonsterTraits, getStateEmoji } from '@/lib/utils'
-// import { getEquippedBackground } from '@/actions/backgrounds.actions'
-// import { getEquippedAccessoriesForMonster } from '@/actions/accessories.actions'
-// import type { AccessoryType } from '@/config/accessories.config'
+import { getEquippedBackground } from '@/actions/background.actions'
+import { getEquippedAccessoriesForMonster } from '@/actions/accessory.actions'
+import type { AccessoryType } from '@/config/accessory.config'
 
 /**
  * Props pour le composant PublicMonsterCard
@@ -36,8 +36,8 @@ interface PublicMonsterCardProps {
  * <PublicMonsterCard monster={monsterData} />
  */
 export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.ReactNode {
-//   const [equippedBackground, setEquippedBackground] = useState<DBBackground | null>(null)
-//   const [equippedAccessories, setEquippedAccessories] = useState<EquippedAccessory[]>([])
+  const [equippedBackground, setEquippedBackground] = useState<DBBackground | null>(null)
+  const [equippedAccessories, setEquippedAccessories] = useState<EquippedAccessory[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   // Parse des traits depuis le JSON stocké en base
@@ -55,50 +55,42 @@ export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.R
   }
 
   // Charger le background et les accessoires équipés
-  //   useEffect(() => {
-  //     const loadMonsterAssets = async (): Promise<void> => {
-  //       try {
-  //         setIsLoading(true)
+  useEffect(() => {
+    const loadMonsterAssets = async (): Promise<void> => {
+      try {
+        setIsLoading(true)
 
-  //         // Charger le background équipé
-  //         if (monster.equipedBackground !== null && monster.equipedBackground !== undefined) {
-  //           const bg = await getEquippedBackground(monster._id)
-  //           setEquippedBackground(bg)
-  //         }
+        // Charger le background équipé
+        if (monster.equipedBackground !== null && monster.equipedBackground !== undefined) {
+          const bg = await getEquippedBackground(monster._id)
+          setEquippedBackground(bg)
+        }
 
-  //         // Charger les accessoires équipés
-  //         if (monster.equipedAccessories !== null && monster.equipedAccessories !== undefined && monster.equipedAccessories.length > 0) {
-  //           const accessories = await getEquippedAccessoriesForMonster(monster._id)
+        // Charger les accessoires équipés
+        if (monster.equipedAccessories !== null && monster.equipedAccessories !== undefined && monster.equipedAccessories.length > 0) {
+          const accessories = await getEquippedAccessoriesForMonster(monster._id)
 
-  //           if (accessories.length > 0) {
-  //             const equippedItems: EquippedAccessory[] = accessories.map((acc) => ({
-  //               type: acc.type as AccessoryType,
-  //               mainColor: acc.mainColor ?? '#000000'
-  //             }))
+          if (accessories.length > 0) {
+            const equippedItems: EquippedAccessory[] = accessories.map((acc) => ({
+              type: acc.type as AccessoryType,
+              mainColor: acc.mainColor ?? '#000000'
+            }))
 
-  //             setEquippedAccessories(equippedItems)
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error('Erreur lors du chargement des assets du monstre:', error)
-  //       } finally {
-  //         setIsLoading(false)
-  //       }
-  //     }
+            setEquippedAccessories(equippedItems)
+          }
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des assets du monstre:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  //     void loadMonsterAssets()
-  //   }, [monster._id, monster.equipedBackground, monster.equipedAccessories])
+    void loadMonsterAssets()
+  }, [monster._id, monster.equipedBackground, monster.equipedAccessories])
 
   return (
     <div className='group relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-4 border-purple-200 hover:border-purple-400 hover:scale-105'>
-      {/* Background du monstre */}
-      {/* {equippedBackground !== null && equippedBackground !== undefined && (
-        <div
-          className='absolute inset-0 bg-cover bg-center opacity-40'
-          style={{ backgroundImage: `url(${equippedBackground.url})` }}
-        />
-      )} */}
-
       {/* Contenu de la carte */}
       <div className='relative z-10 p-6'>
         {/* En-tête avec nom et niveau */}
@@ -118,6 +110,13 @@ export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.R
 
         {/* Zone du monstre */}
         <div className='relative bg-gray-50 rounded-lg p-4 mb-4 min-h-[300px] flex items-center justify-center border-2 border-gray-200'>
+          {/* Background du monstre */}
+          {equippedBackground !== null && equippedBackground !== undefined && (
+            <div
+              className='absolute inset-0 bg-cover bg-center opacity-40'
+              style={{ backgroundImage: `url(${equippedBackground.url})` }}
+            />
+          )}
           {isLoading
             ? (
               <div className='text-center'>
@@ -130,7 +129,7 @@ export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.R
                 state={monster.state}
                 traits={traits}
                 level={monster.level}
-                // equippedAccessories={equippedAccessories}
+                equippedAccessories={equippedAccessories}
               />
               )}
         </div>
