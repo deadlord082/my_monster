@@ -9,14 +9,14 @@ import {
   useUserDisplay,
   useMonsterStats,
   useLatestAdoptionLabel,
-  useFavoriteMoodMessage,
-  useQuests
+  useFavoriteMoodMessage
 } from '@/hooks/dashboard'
 import CreateMonsterModal from './create-monster-modal'
 import { WelcomeHero } from './welcome-hero'
 import { QuestsSection } from './quests-section'
 import { MoodTipSection } from './mood-tip-section'
 import MonstersList from '../monsters/monsters-list'
+import { DailyQuestsSection } from '@/components/quests'
 
 type Session = typeof authClient.$Infer.Session
 
@@ -46,9 +46,6 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   const stats = useMonsterStats(monsters)
   const latestAdoptionLabel = useLatestAdoptionLabel(stats.latestAdoption)
   const favoriteMoodMessage = useFavoriteMoodMessage(stats.favoriteMood, stats.totalMonsters)
-
-  // Génération des quêtes
-  const quests = useQuests(stats)
 
   useEffect(() => {
     const fetchAndUpdateMonsters = async (): Promise<void> => {
@@ -179,10 +176,9 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
           <MonstersList monsters={monsterList} className='mt-0' />
         </div>
 
-        {/* Quêtes et conseils */}
-        <div className='grid gap-6 lg:grid-cols-2 my-8'>
-          <QuestsSection quests={quests} />
-          <MoodTipSection message={favoriteMoodMessage} />
+        {/* Quêtes journalières */}
+        <div className='my-8'>
+          <DailyQuestsSection />
         </div>
       </main>
 
