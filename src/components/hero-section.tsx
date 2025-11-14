@@ -21,7 +21,9 @@ export default function HeroSection (): React.ReactNode {
           </p>
           <div className='flex flex-col sm:flex-row gap-4 justify-center'>
             <Button size='xl' variant='primary'>
-              Commencer l'aventure
+              <p className='text-black'>
+                Commencer l'aventure
+              </p>
             </Button>
             <Button size='xl' variant='outline'>
               Découvrir le jeu

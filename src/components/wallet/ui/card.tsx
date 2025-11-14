@@ -16,7 +16,7 @@ export function Card ({ children, className = '', hover = false }: CardProps): R
     <div
       className={`
         relative overflow-hidden rounded-3xl 
-        bg-gradient-to-br from-white to-purple-100 
+        bg-gradient-to-br from-gray-900 to-gray-800 
         p-6 shadow-xl ring-4 ring-white/50 
         ${hover ? 'transform hover:scale-105 transition-transform duration-300' : ''}
         ${className}

@@ -102,7 +102,7 @@ export function CreatureMonsterDisplay ({
   const currentState = stateColors[state] ?? stateColors.happy
 
   return (
-    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-pink-50 to-purple-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-black  to-gray-700 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-gray-800/80'>
       {/* Bulles décoratives */}
       <div className='pointer-events-none absolute -right-12 top-10 h-40 w-40 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-2xl animate-float' />
       <div className='pointer-events-none absolute -left-16 -top-12 h-48 w-48 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-300/30 blur-2xl animate-float-delayed' />

@@ -167,7 +167,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   }, [])
 
   return (
-    <div className='min-h-screen bg-gray-50 py-6'>
+    <div className='min-h-screen bg-gray-950 py-6'>
       <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
       <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
 
@@ -178,7 +178,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
           <div className='flex items-center gap-4'>
             <button
               onClick={() => { void router.push('/app') }}
-              className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-purple-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
+              className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-blue-800 to-blue-600 hover:from-gray-900 hover:to-blue-700 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-gray-900/50 transition-all duration-300 hover:scale-105 active:scale-95'
             >
               <span className='text-xl'>←</span>
               <span className='hidden sm:inline'>Retour</span>
@@ -186,19 +186,19 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
 
             {/* Nom du monstre inline */}
             <div className='flex items-center gap-2'>
-              <span className='text-3xl'>👋</span>
-              <h1 className='text-3xl sm:text-4xl font-bold text-gray-900'>
+              <h1 className='text-3xl sm:text-4xl font-bold text-white'>
                 {currentMonster.name}
               </h1>
             </div>
           </div>
 
-          {/* Bouton boutique */}
+          {/* Bouton public */}
           <div className='flex items-center gap-3'>
             <TogglePublicButton
               monsterId={currentMonster._id}
               initialIsPublic={currentMonster.isPublic ?? false}
             />
+            {/* Bouton boutique */}
             <button
               onClick={() => { setShowShop(true) }}
               className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-green-200/50 transition-all duration-300 hover:scale-105 active:scale-95'

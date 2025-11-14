@@ -88,9 +88,9 @@ export function MonsterAccessories ({
 
   if (isLoading) {
     return (
-      <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-purple-50 to-pink-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+      <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-gray-900/80'>
         <div className='text-center'>
-          <p className='text-gray-600 font-bold'>Chargement des accessoires...</p>
+          <p className='text-white font-bold'>Chargement des accessoires...</p>
         </div>
       </div>
     )
@@ -98,11 +98,11 @@ export function MonsterAccessories ({
 
   if (accessories.length === 0) {
     return (
-      <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-purple-50 to-pink-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+      <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-gray-900/80'>
         <div className='relative'>
           {/* Titre */}
           <div className='text-center mb-6'>
-            <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text flex items-center justify-center gap-3'>
+            <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text flex items-center justify-center gap-3'>
               Accessoires
             </h2>
           </div>
@@ -110,10 +110,10 @@ export function MonsterAccessories ({
           {/* Message vide */}
           <div className='text-center py-8'>
             <div className='text-7xl mb-4'>🛍️</div>
-            <p className='text-xl font-bold text-gray-700 mb-2'>
+            <p className='text-xl font-bold text-gray-200 mb-2'>
               Aucun accessoire pour l'instant
             </p>
-            <p className='text-sm text-gray-500'>
+            <p className='text-sm text-gray-400'>
               Va faire un tour à la boutique !
             </p>
           </div>
@@ -123,17 +123,17 @@ export function MonsterAccessories ({
   }
 
   return (
-    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-purple-50 to-pink-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-gray-900/80'>
       {/* Effet de fond */}
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-200/20 via-pink-200/20 to-blue-200/20 animate-pulse-slow' />
 
       <div className='relative'>
         {/* Titre */}
         <div className='text-center mb-8'>
-          <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text flex items-center justify-center gap-3'>
+          <h2 className='text-4xl font-black text-transparent bg-gradient-to-r  from-blue-800 to-blue-600 bg-clip-text flex items-center justify-center gap-3'>
             Accessoires
           </h2>
-          <p className='text-sm text-gray-600 mt-2'>
+          <p className='text-sm text-gray-300 mt-2'>
             {accessories.length} accessoire{accessories.length > 1 ? 's' : ''} possédé{accessories.length > 1 ? 's' : ''}
           </p>
         </div>
@@ -152,8 +152,8 @@ export function MonsterAccessories ({
                   flex items-center justify-between p-4 rounded-2xl
                   transition-all duration-300
                   ${isEquiped
-                    ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg ring-2 ring-green-300'
-                    : 'bg-white shadow-md ring-2 ring-gray-200'
+                    ? 'bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg ring-2 ring-gray-700'
+                    : 'bg-gray-400 shadow-md ring-2 ring-gray-700'
                   }
                   hover:scale-105 hover:shadow-xl
                 `}
@@ -214,8 +214,8 @@ export function MonsterAccessories ({
                     ${isToggling
                       ? 'bg-gray-400 cursor-wait'
                       : isEquiped
-                        ? 'bg-white text-green-600 hover:bg-gray-100 active:scale-95 shadow-md'
-                        : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:brightness-110 active:scale-95 shadow-md'
+                        ? 'bg-gray-300 text-white hover:bg-gray-100 active:scale-95 shadow-md'
+                        : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:brightness-110 active:scale-95 shadow-md'
                     }
                   `}
                 >

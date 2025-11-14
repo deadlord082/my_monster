@@ -24,7 +24,7 @@ export function PaymentFeatures (): React.ReactElement {
         <Card key={index} hover>
           <div className='text-center'>
             <div className='text-5xl mb-3'>{feature.icon}</div>
-            <h3 className='text-xl font-black text-[#00d8ff] mb-2 text-shadow-glow'>{feature.title}</h3>
+            <h3 className='text-xl font-black text-blue-400 mb-2 text-shadow-glow'>{feature.title}</h3>
             <p className='text-[#e6f7ff]/70 font-medium'>{feature.text}</p>
           </div>
         </Card>

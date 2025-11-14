@@ -141,14 +141,14 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
       <div className='min-h-screen flex items-center justify-center p-4 py-8'>
         <div className='relative max-w-7xl w-full animate-scale-in'>
           {/* Contenu du modal */}
-          <div className='bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl shadow-2xl p-6 md:p-8 md:pt-0 relative max-h-[90vh] overflow-y-auto'>
+          <div className='bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl shadow-2xl p-6 md:p-8 md:pt-0 relative max-h-[90vh] overflow-y-auto'>
 
             {/* Header sticky avec bouton fermer */}
-            <div className='sticky top-0 z-20 bg-gradient-to-br from-purple-50 to-pink-50 pb-4 -mx-6 -mt-6 px-6 pt-6 md:-mx-8 md:-mt-8 md:px-8 md:pt-8 mb-4'>
+            <div className='sticky top-0 z-20 bg-gradient-to-br from-gray-900 to-gray-800 pb-4 -mx-6 -mt-6 px-6 pt-6 md:-mx-8 md:-mt-8 md:px-8 md:pt-8 mb-4'>
               {/* Bouton fermer */}
               <button
                 onClick={onClose}
-                className='absolute top-4 right-4 w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-pink-500 text-white font-bold text-xl hover:from-red-500 hover:to-pink-600 transition-all duration-300 shadow-lg hover:scale-110 active:scale-95'
+                className='absolute top-4 right-4 w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-500 text-white font-bold text-xl hover:from-red-800 hover:to-red-600 transition-all duration-300 shadow-lg hover:scale-110 active:scale-95'
                 aria-label='Fermer'
               >
                 ✕
@@ -156,7 +156,7 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
 
               {/* En-tête du modal */}
               <div className='text-center pr-12'>
-                <h2 className='text-2xl md:text-3xl font-bold text-gray-900 mb-2'>
+                <h2 className='text-2xl md:text-3xl font-bold text-gray-100 mb-2'>
                   Boutique
                 </h2>
 
@@ -164,12 +164,12 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                 <div className='flex items-center justify-center gap-3 mt-4'>
                   {isLoadingWallet
                     ? (
-                      <div className='text-gray-500 animate-pulse'>Chargement...</div>
+                      <div className='text-gray-300 animate-pulse'>Chargement...</div>
                       )
                     : (
                       <>
                         <div className='bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black px-6 py-3 rounded-2xl shadow-lg flex items-center gap-2'>
-                          <span className='text-2xl'>🪙</span>
+                          <span className='text-2xl'>$</span>
                           <span className='text-2xl'>{walletBalance}</span>
                           <span className='text-sm'>Koins</span>
                         </div>
@@ -187,8 +187,8 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                     transition-all duration-300
                     flex items-center gap-2
                     ${activeTab === 'accessories'
-                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white scale-105 shadow-xl'
-                      : 'bg-white text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
+                      ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-black scale-105 shadow-xl'
+                      : 'bg-black text-blue-100 hover:scale-105 shadow-md hover:shadow-lg'
                     }
                   `}
                 >
@@ -203,8 +203,8 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                     transition-all duration-300
                     flex items-center gap-2
                     ${activeTab === 'backgrounds'
-                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white scale-105 shadow-xl'
-                      : 'bg-white text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
+                      ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-blue-700 scale-105 shadow-xl'
+                      : 'bg-black text-blue-100 hover:scale-105 shadow-md hover:shadow-lg'
                     }
                   `}
                 >
@@ -219,8 +219,8 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                     transition-all duration-300
                     flex items-center gap-2
                     ${activeTab === 'xp-boosts'
-                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white scale-105 shadow-xl'
-                      : 'bg-white text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
+                      ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-blue-700 scale-105 shadow-xl'
+                      : 'bg-black text-blue-100 hover:scale-105 shadow-md hover:shadow-lg'
                     }
                   `}
                 >
@@ -263,7 +263,7 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                       Boosts d'XP
                       <span className='text-3xl'>⚡</span>
                     </h3>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-gray-300'>
                       Faites progresser votre créature plus rapidement !
                     </p>
                   </div>
@@ -281,7 +281,7 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
                   </div>
 
                   {/* Message informatif */}
-                  <div className='mt-6 p-4 bg-blue-100/50 rounded-xl border-2 border-blue-200'>
+                  <div className='mt-6 p-4 bg-black rounded-xl border-2 border-gray-600'>
                     <p className='text-sm text-blue-800 text-center font-semibold'>
                       💡 Astuce : Plus le boost est gros, plus votre créature gagnera d'XP !
                     </p>

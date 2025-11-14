@@ -105,10 +105,10 @@ export function MonsterBackgrounds ({
 
   if (isLoading) {
     return (
-      <div className='rounded-lg bg-white p-8 shadow-sm border-2 border-gray-200'>
+      <div className='rounded-lg bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-sm border-2 border-gray-700'>
         <div className='text-center'>
           <div className='text-4xl mb-4'>🖼️</div>
-          <p className='text-gray-600 font-semibold'>Chargement des backgrounds...</p>
+          <p className='text-gray-300 font-semibold'>Chargement des backgrounds...</p>
         </div>
       </div>
     )
@@ -116,11 +116,11 @@ export function MonsterBackgrounds ({
 
   if (backgrounds.length === 0) {
     return (
-      <div className='rounded-lg bg-white p-8 shadow-sm border-2 border-gray-200'>
+      <div className='rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-sm ring-8 ring-gray-900/80'>
         <div>
           {/* Titre */}
           <div className='text-center mb-6'>
-            <h2 className='text-3xl font-bold text-gray-900 flex items-center justify-center gap-2'>
+            <h2 className='text-3xl font-bold text-white flex items-center justify-center gap-2'>
               <span className='text-3xl'>🖼️</span>
               Backgrounds
               <span className='text-3xl'>🖼️</span>
@@ -130,10 +130,10 @@ export function MonsterBackgrounds ({
           {/* Message vide */}
           <div className='text-center py-8'>
             <div className='text-5xl mb-4'>🛍️</div>
-            <p className='text-lg font-bold text-gray-700 mb-2'>
+            <p className='text-lg font-bold text-gray-200 mb-2'>
               Aucun background pour l'instant
             </p>
-            <p className='text-sm text-gray-500'>
+            <p className='text-sm text-gray-300'>
               Va faire un tour à la boutique !
             </p>
           </div>
@@ -143,16 +143,16 @@ export function MonsterBackgrounds ({
   }
 
   return (
-    <div className='rounded-lg bg-white p-8 shadow-sm border-2 border-gray-200'>
+    <div className='rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-sm ring-8 ring-gray-900/80'>
       <div>
         {/* Titre */}
         <div className='text-center mb-8'>
-          <h2 className='text-3xl font-bold text-gray-900 flex items-center justify-center gap-2'>
+          <h2 className='text-3xl font-bold text-white flex items-center justify-center gap-2'>
             <span className='text-3xl'>🖼️</span>
             Backgrounds
             <span className='text-3xl'>🖼️</span>
           </h2>
-          <p className='text-sm text-gray-600 mt-2'>
+          <p className='text-sm text-gray-300 mt-2'>
             {backgrounds.length} background{backgrounds.length > 1 ? 's' : ''} possédé{backgrounds.length > 1 ? 's' : ''}
           </p>
         </div>
@@ -163,7 +163,7 @@ export function MonsterBackgrounds ({
             <button
               onClick={() => { void handleUnequip() }}
               disabled={togglingId !== null}
-              className='w-full bg-gradient-to-r from-red-400 to-rose-500 hover:from-red-500 hover:to-rose-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-black py-3 px-6 rounded-2xl shadow-lg ring-2 ring-red-300 transition-all duration-300 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed'
+              className='w-full bg-gradient-to-r from-red-400 to-rose-500 hover:from-red-500 hover:to-rose-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-black py-3 px-6 rounded-2xl shadow-lg ring-2 ring-red-800 transition-all duration-300 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed'
             >
               <span className='flex items-center justify-center gap-2'>
                 <span>Retirer le background</span>

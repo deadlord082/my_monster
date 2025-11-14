@@ -40,7 +40,9 @@ export default function NewsletterSection (): React.ReactNode {
             className='flex-1 px-4 py-3 rounded-lg border border-cyan-800 bg-black/50 text-cyan-200 placeholder-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400'
           />
           <Button variant='primary' size='md'>
-            S'inscrire
+            <p className='text-black'>
+              S'inscrire
+            </p>
           </Button>
         </form>
 

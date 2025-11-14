@@ -83,7 +83,7 @@ export function CreatureStatsPanel ({
   xpGained = 0
 }: CreatureStatsPanelProps): React.ReactNode {
   return (
-    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-gray-900/80'>
       {/* Effet de fond */}
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-orange-200/20 to-red-200/20 animate-pulse-slow' />
 

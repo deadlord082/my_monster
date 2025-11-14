@@ -90,12 +90,12 @@ export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.R
   }, [monster._id, monster.equipedBackground, monster.equipedAccessories])
 
   return (
-    <div className='group relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-4 border-purple-200 hover:border-purple-400 hover:scale-105'>
+    <div className='group relative bg-black/90 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-4 border-gray-700 hover:border-blue-800 hover:scale-105'>
       {/* Contenu de la carte */}
       <div className='relative z-10 p-6'>
         {/* En-tête avec nom et niveau */}
         <div className='text-center mb-4'>
-          <h3 className='text-2xl font-bold text-gray-900 mb-2'>
+          <h3 className='text-2xl font-bold text-blue-800 mb-2'>
             {monster.name}
           </h3>
           <div className='flex items-center justify-center gap-2'>
@@ -109,7 +109,7 @@ export function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.R
         </div>
 
         {/* Zone du monstre */}
-        <div className='relative bg-gray-50 rounded-lg p-4 mb-4 min-h-[300px] flex items-center justify-center border-2 border-gray-200'>
+        <div className='relative bg-gray-800 rounded-lg p-4 mb-4 min-h-[300px] flex items-center justify-center border-2 border-gray-700'>
           {/* Background du monstre */}
           {equippedBackground !== null && equippedBackground !== undefined && (
             <div

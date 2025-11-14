@@ -127,10 +127,10 @@ export function AccessoriesShop ({
     <div className='space-y-6'>
       {/* Header */}
       <div className='text-center'>
-        <h2 className='text-3xl font-bold text-gray-900 mb-2'>
+        <h2 className='text-3xl font-bold text-blue-800 mb-2'>
           🛍️ Boutique d'Accessoires
         </h2>
-        <p className='text-gray-600 text-base'>
+        <p className='text-gray-300 text-base'>
           Personnalise ta créature avec style !
         </p>
       </div>
@@ -160,8 +160,8 @@ export function AccessoriesShop ({
               px-5 py-2.5 rounded-full font-bold text-base
               transition-all duration-300
               ${selectedType === cat.id
-              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white scale-105 shadow-lg'
-              : 'bg-white text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
+              ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-white scale-105 shadow-lg'
+              : 'bg-black text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
             }
             `}
           >

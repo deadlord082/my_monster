@@ -31,7 +31,7 @@ export default function Header ({ isLoggedIn = false }: HeaderProps): React.Reac
           <div className='flex-shrink-0'>
             <div className='flex items-center space-x-2'>
               <Image
-                src='/logo_comp.webp'
+                src='/logo.png'
                 alt='My Monster Logo'
                 width={40}
                 height={40}
@@ -62,7 +62,9 @@ export default function Header ({ isLoggedIn = false }: HeaderProps): React.Reac
           {/* CTA Button */}
           <div className='flex items-center'>
             <Button variant='primary' size='md' onClick={handleCTA}>
-              {isLoggedIn ? 'Mes monstres' : 'Créer mon monstre'}
+              <p className='text-black'>
+                {isLoggedIn ? 'Mes monstres' : 'Créer mon monstre'}
+              </p>
             </Button>
           </div>
         </div>

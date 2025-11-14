@@ -125,10 +125,10 @@ export function BackgroundsShop ({
     <div className='space-y-6'>
       {/* Header */}
       <div className='text-center'>
-        <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text mb-2'>
+        <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text mb-2'>
           🖼️ Boutique de Backgrounds
         </h2>
-        <p className='text-gray-600 text-lg'>
+        <p className='text-gray-300 text-lg'>
           Personnalise l'environnement de ta créature !
         </p>
       </div>
@@ -158,8 +158,8 @@ export function BackgroundsShop ({
               px-5 py-2.5 rounded-full font-bold text-base
               transition-all duration-300
               ${selectedCategory === cat.id
-                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-lg'
-                : 'bg-white text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
+                ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-white scale-105 shadow-lg'
+                : 'bg-black text-gray-700 hover:scale-105 shadow-md hover:shadow-lg'
               }
             `}
           >
@@ -305,8 +305,8 @@ export function BackgroundsShop ({
       </div>
 
       {/* Info footer */}
-      <div className='mt-8 p-4 bg-gradient-to-r from-blue-100/50 to-purple-100/50 rounded-xl border-2 border-blue-200'>
-        <p className='text-sm text-gray-700 text-center font-semibold flex items-center justify-center gap-2'>
+      <div className='mt-6 p-4 bg-black rounded-xl border-2 border-gray-600'>
+        <p className='text-sm text-blue-800 text-center font-semibold'>
           <span className='text-2xl'>💡</span>
           <span>Les backgrounds changent l'environnement de votre créature !</span>
         </p>

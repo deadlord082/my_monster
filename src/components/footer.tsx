@@ -50,7 +50,7 @@ export default function Footer (): React.ReactNode {
           <div className='col-span-2'>
             <div className='flex items-center space-x-2 mb-4'>
               <Image
-                src='/logo_comp.webp'
+                src='/logo.png'
                 alt='My Monster Logo'
                 width={32}
                 height={32}

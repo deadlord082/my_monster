@@ -42,8 +42,7 @@ export function CreatureHeader ({ name, level }: CreatureHeaderProps): React.Rea
       {/* Nom du monstre - ÉNORME */}
       <div className='pt-12'>
         <div className='inline-flex items-center gap-4 mb-4'>
-          <span className='text-7xl animate-wave'>👋</span>
-          <h1 className='text-7xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text drop-shadow-2xl'>
+          <h1 className='text-7xl font-black text-white bg-gradient-to-r from-blue-800  to-blue-600 bg-clip-text drop-shadow-2xl'>
             {name}
           </h1>
           <span className='text-7xl animate-wave' style={{ animationDelay: '0.5s' }}>💖</span>

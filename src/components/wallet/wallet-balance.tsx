@@ -20,7 +20,7 @@ export function WalletBalance ({ balance }: WalletBalanceProps): React.ReactElem
   }
 
   return (
-    <div className='relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-12 mb-12 shadow-[0_30px_90px_rgba(0,0,0,0.25)] ring-8 ring-white/80'>
+    <div className='relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-gray-900  to-gray-800 p-12 mb-12 shadow-[0_30px_90px_rgba(0,0,0,0.25)] ring-8 ring-gray-900/80'>
       <div className='absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-orange-200/30 to-red-200/30 animate-pulse-slow' />
 
       <div className='relative z-10'>
