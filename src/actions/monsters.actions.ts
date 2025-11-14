@@ -10,6 +10,7 @@ import { headers } from 'next/headers'
 import { Types } from 'mongoose'
 import { MonsterAction } from '@/hooks/monsters'
 import { checkAndUpdateQuest } from '@/services/quests/daily-quests.service'
+import { addKoins } from '@/actions/wallet.actions'
 
 /**
  * Crée un nouveau monstre pour l'utilisateur authentifié
@@ -257,6 +258,8 @@ export async function doActionOnMonster (id: string, action: MonsterAction): Pro
           monster.maxXp = Number(monster.level) * 100
           leveledUp = true
         }
+
+        await addKoins(5) // Récompense de 5 Koins pour action correcte
 
         monster.markModified('state')
         monster.markModified('xp')
