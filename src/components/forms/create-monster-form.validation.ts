@@ -1,4 +1,10 @@
-import { DEFAULT_MONSTER_LEVEL, DEFAULT_MONSTER_STATE, type MonsterTraits } from '@/types/monster'
+import {
+  DEFAULT_MONSTER_ACCESSORIES,
+  DEFAULT_MONSTER_LEVEL,
+  DEFAULT_MONSTER_BG,
+  DEFAULT_MONSTER_STATE,
+  type MonsterTraits
+} from '@/types/monster'
 import type { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
 
 export interface CreateMonsterFormDraft {
@@ -37,7 +43,10 @@ export const validateCreateMonsterForm = (
       name: trimmedName,
       traits: JSON.stringify(traits),
       level: DEFAULT_MONSTER_LEVEL,
+      equipedAccessories: DEFAULT_MONSTER_ACCESSORIES,
+      equipedBackground: DEFAULT_MONSTER_BG,
       xp: 0,
+      isPublic: false,
       maxXp: DEFAULT_MONSTER_LEVEL * 100,
       state: DEFAULT_MONSTER_STATE
     }
